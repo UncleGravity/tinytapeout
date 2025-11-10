@@ -28,7 +28,7 @@ module tb ();
 `endif
 
   // Replace tt_um_example with your module name:
-  tt_um_unclegravity_adder user_project (
+  tt_um_unclegravity_7seg_counter user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
