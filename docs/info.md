@@ -9,12 +9,12 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-It blinks the number 2 forever
+It adds!
 
 ## How to test
 
-It's a secret
+You use it.
 
 ## External hardware
 
-Just the clock
+TBD
