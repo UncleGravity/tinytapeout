@@ -1,42 +1,55 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
-# Tiny Tapeout Verilog Project Template
+# 7-Segment Counter ASIC
 
-- [Read the documentation for project](docs/info.md)
+A simple decimal counter that increments once per second from 0 to 9 on a 7-segment display.
 
-## What is Tiny Tapeout?
+> ## What is Tiny Tapeout?
+>
+> Tiny Tapeout is an educational project that makes it easier and cheaper than ever to get your digital designs manufactured on a real chip. Learn more at [tinytapeout.com](https://tinytapeout.com).
 
-Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
+## 3D Viewer
+[Open 3D viewer](https://gds-viewer.tinytapeout.com/?model=https://unclegravity.github.io/tinytapeout/tinytapeout.oas&pdk=sky130A)
 
-To learn more and get started, visit https://tinytapeout.com.
+## 2D Preview
+![png](https://unclegravity.github.io/tinytapeout/gds_render.png)
 
-## Set up your Verilog project
+## How it Works
 
-1. Add your Verilog files to the `src` folder.
-2. Edit the [info.yaml](info.yaml) and update information about your project, paying special attention to the `source_files` and `top_module` properties. If you are upgrading an existing Tiny Tapeout project, check out our [online info.yaml migration tool](https://tinytapeout.github.io/tt-yaml-upgrade-tool/).
-3. Edit [docs/info.md](docs/info.md) and add a description of your project.
-4. Adapt the testbench to your design. See [test/README.md](test/README.md) for more information.
+This design implements a 4-bit counter that increments on each clock edge. The counter value is decoded into 7-segment display patterns using combinational logic. When the counter reaches 9, it automatically wraps back to 0.
 
-The GitHub action will automatically build the ASIC files using [LibreLane](https://www.zerotoasiccourse.com/terminology/librelane/).
+The design uses a 1 Hz clock (configured in `info.yaml`), which is provided by Tiny Tapeout's RP2040 chip, making the counting visible in real-time without additional clock division circuitry.
 
-## Enable GitHub actions to build the results page
+## Hardware Requirements
 
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
+- **7-segment display** (common-cathode)
+
+Connect the output pins (`uo[0]` through `uo[6]`) through resistors to segments A-G of the display. Connect the display's common cathode to ground.
+
+## Running Tests
+
+To run the tests, use the following command from the project root:
+
+```bash
+nix develop -c uv run make -B
+```
+
+This command:
+- Enters the nix development environment
+- Uses `uv` to manage the Python environment
+- Runs `make -B` to execute the cocotb test suite
+
+Results are displayed in the terminal output, and a waveform file (`tb.vcd`) is generated for inspection. To view the waveform file, use GTKWave:
+
+```bash
+gtkwave tb.vcd
+```
+
+This will open an interactive viewer where you can inspect the signal traces and debug your design.
 
 ## Resources
 
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://tinytapeout.com/discord)
-- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
-
-## What next?
-
-- [Submit your design to the next shuttle](https://app.tinytapeout.com/).
-- Edit [this README](README.md) and explain your design, how it works, and how to test it.
-- Share your project on your social network of choice:
-  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
-  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
-  - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@tinytapeout](https://twitter.com/tinytapeout)
-  - Bluesky [@tinytapeout.com](https://bsky.app/profile/tinytapeout.com)
+- [Project Documentation](docs/info.md)
+- [Tiny Tapeout FAQ](https://tinytapeout.com/faq/)
+- [Digital Design Lessons](https://tinytapeout.com/digital_design/)
+- [Join the Community](https://tinytapeout.com/discord)
